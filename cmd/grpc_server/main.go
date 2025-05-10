@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/KaffeeMaschina/subpub/internal/config"
-	"github.com/KaffeeMaschina/subpub/internal/config/env"
+	"github.com/KaffeeMaschina/subpub/config"
+	"github.com/KaffeeMaschina/subpub/config/env"
 	"github.com/KaffeeMaschina/subpub/mysubpub"
 	desc "github.com/KaffeeMaschina/subpub/pkg/bus_v1"
 	"google.golang.org/grpc"
@@ -49,10 +49,14 @@ func (s *server) Subscribe(req *desc.SubscribeRequest, stream desc.PubSub_Subscr
 	return nil
 }
 func (s *server) Publish(ctx context.Context, req *desc.PublishRequest) (*emptypb.Empty, error) {
+	if req.GetKey() == "" {
+		return nil, status.Error(codes.InvalidArgument, "key is required")
+	}
 	err := s.sp.Publish(req.Key, req.Data)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to publish: %v", err)
 	}
+
 	return &emptypb.Empty{}, nil
 }
 func setupSignalHandler() context.Context {

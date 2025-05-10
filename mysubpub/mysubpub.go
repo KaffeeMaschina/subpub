@@ -105,13 +105,16 @@ func (eb *eventBus) Publish(subject string, msg interface{}) error {
 	if eb.closed {
 		return errors.New("already closed")
 	}
-	subscribers := eb.subscribers[subject]
-	for _, sub := range subscribers {
-		select {
-		case sub.queue <- msg:
-		case <-sub.ctx.Done():
-			continue
+	if subscribers, ok := eb.subscribers[subject]; ok {
+		for _, sub := range subscribers {
+			select {
+			case sub.queue <- msg:
+			case <-sub.ctx.Done():
+				continue
+			}
 		}
+	} else {
+		return errors.New("not subscribed")
 	}
 
 	return nil

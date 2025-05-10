@@ -2,7 +2,7 @@ package env
 
 import (
 	"errors"
-	"github.com/KaffeeMaschina/subpub/internal/config"
+	"github.com/KaffeeMaschina/subpub/config"
 	"net"
 	"os"
 )
