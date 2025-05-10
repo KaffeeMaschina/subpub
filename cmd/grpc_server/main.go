@@ -3,6 +3,12 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/KaffeeMaschina/subpub/config"
 	"github.com/KaffeeMaschina/subpub/config/env"
 	"github.com/KaffeeMaschina/subpub/mysubpub"
@@ -12,11 +18,6 @@ import (
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"log"
-	"net"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 type server struct {

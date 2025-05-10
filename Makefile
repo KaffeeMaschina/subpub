@@ -15,6 +15,7 @@ local-server-run:
 
 local-client-run:
 	go run cmd/grpc_client/main.go -config-path=local.env
+
 generate:
 	make generate-pubsub-api
 
