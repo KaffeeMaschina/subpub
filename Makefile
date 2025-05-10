@@ -10,9 +10,11 @@ get-deps:
 
 	go get github.com/joho/godotenv
 
-local-run:
+local-server-run:
 	go run cmd/grpc_server/main.go -config-path=local.env
 
+local-client-run:
+	go run cmd/grpc_client/main.go -config-path=local.env
 generate:
 	make generate-pubsub-api
 
